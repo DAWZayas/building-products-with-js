@@ -12,12 +12,13 @@ export const getMoreQuestions = action$ => action$
   .ofType(ActionTypes.GET_MORE_QUESTIONS)
   .map(signRequest)
   .mergeMap(({headers, payload}) => Observable
-    .ajax.get(`http://${host}:${port}/api/question?skip=${payload.skip || 0}&limit=${payload.limit || 10}`, headers)
+    .ajax.get(`http://${host}:${port}/api/question?skip=${payload.skip || 0}&limit=${payload.limit || 10}&match=${payload.match || ''}`,
+      headers)
     .delayInDebug(2000)
     .map(res => res.response)
     .map(questions => ({
       type: ActionTypes.GET_MORE_QUESTIONS_SUCCESS,
-      payload: {questions},
+      payload: {questions, reset: payload.reset},
     }))
     .catch(error => Observable.of(
       {

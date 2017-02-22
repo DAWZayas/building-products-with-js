@@ -9,7 +9,12 @@ export const questions = (state = initialState, action) => {
       return {...state, status: 'loading', error: null};
     case ActionTypes.GET_MORE_QUESTIONS_SUCCESS: {
       const hasMore = action.payload.questions.length === 10;
-      return {...state, questions: state.questions.concat(action.payload.questions), status: 'done', hasMore};
+      return {
+        ...state,
+        questions: action.payload.reset ? action.payload.questions : state.questions.concat(action.payload.questions),
+        status: 'done',
+        hasMore,
+      };
     }
     case ActionTypes.GET_ANSWERS_ERROR:
     case ActionTypes.ANSWER_QUESTION_ERROR:
