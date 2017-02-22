@@ -34,6 +34,14 @@ class QuestionSingle extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.questions !== nextProps.questions) {
+      this.setState({
+        questionIndex: 0,
+      });
+    }
+  }
+
   render() {
     const {questions, filtered, hasMore, loadMore, loadingMore} = this.props;
     const {questionIndex} = this.state;
