@@ -114,3 +114,19 @@ export const removePendingQuestionNotifications = action$ => action$
   .map(question =>
     Actions.removeNotificationByRefAction(question.id),
   );
+
+export const doFilterQuestions = action$ => action$
+  .ofType(ActionTypes.DO_FILTER_QUESTIONS)
+  .debounceTime(500)
+  .switchMap(({payload}) =>
+    Observable.of(
+      {
+        type: ActionTypes.RESET_QUESTIONS,
+        payload,
+      },
+      {
+        type: ActionTypes.GET_MORE_QUESTIONS,
+        payload,
+      },
+    ),
+  );

@@ -2,27 +2,23 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {getMoreQuestions, resetQuestions} from '../../store/actions';
+import {doFilterQuestions} from '../../store/actions';
 
 const mapStateToProps = state => ({
   filtered: state.questions.filtered,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getFilteredQuestions: payload => dispatch(getMoreQuestions(payload)),
-  resetQuestions: () => dispatch(resetQuestions()),
+  getFilteredQuestions: payload => dispatch(doFilterQuestions(payload)),
 });
 
-const Filter = ({filtered, getFilteredQuestions, resetQuestions}) => {
-  const onFilter = (e) => {
-    resetQuestions();
-    getFilteredQuestions({
-      skip: 0,
-      limit: 10,
-      match: e.target.value,
-      reset: true,
-    });
-  };
+const Filter = ({filtered, getFilteredQuestions}) => {
+  const onFilter = e => getFilteredQuestions({
+    skip: 0,
+    limit: 10,
+    match: e.target.value,
+    reset: true,
+  });
 
   return (
     <div className="input-group">
