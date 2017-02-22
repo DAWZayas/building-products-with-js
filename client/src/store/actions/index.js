@@ -93,3 +93,8 @@ export const createQuestion = payload => ({
   type: ActionTypes.CREATE_QUESTION,
   payload,
 });
+
+export const doFilterQuestions = payload => ({
+  type: ActionTypes.DO_FILTER_QUESTIONS,
+  payload,
+});

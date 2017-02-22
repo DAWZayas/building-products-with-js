@@ -6,6 +6,7 @@ import {getMoreQuestions,
         answerQuestion,
         createQuestion,
         getAnswers,
+        doFilterQuestions,
         removePendingQuestionNotifications} from './questions';
 
 export default [
@@ -23,6 +24,7 @@ export default [
   helloWorld,
   // questions
   getMoreQuestions,
+  doFilterQuestions,
   answerQuestion,
   createQuestion,
   getAnswers,
