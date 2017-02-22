@@ -18,7 +18,7 @@ export const getMoreQuestions = action$ => action$
     .map(res => res.response)
     .map(questions => ({
       type: ActionTypes.GET_MORE_QUESTIONS_SUCCESS,
-      payload: {questions, reset: payload.reset},
+      payload: {questions, reset: payload.reset, filtered: payload.match},
     }))
     .catch(error => Observable.of(
       {

@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
   hasMore: state.questions.hasMore,
   loadingMore: state.questions.status === 'loading',
   questions: state.questions.questions,
+  filtered: state.questions.filtered,
 });
 
 
@@ -17,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
   loadMore: payload => dispatch(getMoreQuestions(payload)),
 });
 
-const QuestionList = ({questions, loadMore, hasMore, loadingMore}) => {
+const QuestionList = ({questions, filtered, loadMore, hasMore, loadingMore}) => {
 
   const onLoadMore = () => loadMore({
     skip: questions.length,
@@ -27,7 +28,7 @@ const QuestionList = ({questions, loadMore, hasMore, loadingMore}) => {
   return (
     <div>
       {!hasMore && questions.length === 0 ?
-        <div>No questions yet!</div> :
+        <div>{filtered ? 'No questions match your criteria' : 'No questions yet!'}</div> :
         <InfiniteScroll
           elementIsScrollable={false}
           loadMore={onLoadMore}

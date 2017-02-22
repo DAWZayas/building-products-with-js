@@ -15,6 +15,7 @@ export const questions = (state = initialState, action) => {
         ...state,
         questions: action.payload.reset ? action.payload.questions : state.questions.concat(action.payload.questions),
         status: 'done',
+        filtered: action.payload.filtered,
         hasMore,
       };
     }

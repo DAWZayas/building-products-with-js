@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
   hasMore: state.questions.hasMore,
   loadingMore: state.questions.status === 'loading',
   questions: state.questions.questions,
+  filtered: state.questions.filtered,
 });
 
 
@@ -34,7 +35,7 @@ class QuestionSingle extends Component {
   }
 
   render() {
-    const {questions, hasMore, loadMore, loadingMore} = this.props;
+    const {questions, filtered, hasMore, loadMore, loadingMore} = this.props;
     const {questionIndex} = this.state;
 
     const question = questions[questionIndex];
@@ -55,7 +56,7 @@ class QuestionSingle extends Component {
 
     return (
       <div>
-         {!hasMore && questions.length === 0 ? <div>No questions yet!</div> : null}
+         {!hasMore && questions.length === 0 ? <div>{filtered ? 'No questions match your criteria' : 'No questions yet!'}</div> : null}
          {loadingMore ? <Spinner /> : question ? <Question key={question.id} question={question} /> : questions.length > 0 ? 'No more questions' : null}
          <div className="btn-group col-xs-4 col-xs-offset-5" role="group">
           <button type="button" className="btn btn-default" disabled={questionIndex === 0} onClick={() => handleClick(-1)}>
