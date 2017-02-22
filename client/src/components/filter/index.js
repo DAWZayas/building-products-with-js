@@ -4,12 +4,16 @@ import {connect} from 'react-redux';
 
 import {getMoreQuestions, resetQuestions} from '../../store/actions';
 
+const mapStateToProps = state => ({
+  filtered: state.questions.filtered,
+});
+
 const mapDispatchToProps = dispatch => ({
   getFilteredQuestions: payload => dispatch(getMoreQuestions(payload)),
   resetQuestions: () => dispatch(resetQuestions()),
 });
 
-const Filter = ({getFilteredQuestions, resetQuestions}) => {
+const Filter = ({filtered, getFilteredQuestions, resetQuestions}) => {
   const onFilter = (e) => {
     resetQuestions();
     getFilteredQuestions({
@@ -25,9 +29,9 @@ const Filter = ({getFilteredQuestions, resetQuestions}) => {
       <span className="input-group-addon">
         <span className="glyphicon glyphicon-search" />
       </span>
-      <input type="text" className="form-control" placeholder="Search" onChange={onFilter} />
+      <input type="text" className="form-control" placeholder="Search" onChange={onFilter} value={filtered} />
     </div>
   );
 };
 
-export default connect(null, mapDispatchToProps)(Filter);
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
