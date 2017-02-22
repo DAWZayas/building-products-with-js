@@ -5,6 +5,8 @@ const initialState = {questions: [], status: 'inited', answering: {}, hasMore: t
 export const questions = (state = initialState, action) => {
   switch (action.type) {
     // all questions logic
+    case ActionTypes.RESET_QUESTIONS:
+      return {questions: [], status: 'loading', hasMore: true, error: null};
     case ActionTypes.GET_MORE_QUESTIONS:
       return {...state, status: 'loading', error: null};
     case ActionTypes.GET_MORE_QUESTIONS_SUCCESS: {

@@ -60,6 +60,9 @@ export const removeNotificationByRefAction = notificationRef => ({
   payload: {notificationRef},
 });
 
+export const resetQuestions = () => ({
+  type: ActionTypes.RESET_QUESTIONS,
+});
 
 export const getMoreQuestions = payload => ({
   type: ActionTypes.GET_MORE_QUESTIONS,
