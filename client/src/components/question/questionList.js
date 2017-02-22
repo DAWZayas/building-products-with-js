@@ -23,6 +23,7 @@ const QuestionList = ({questions, filtered, loadMore, hasMore, loadingMore}) => 
   const onLoadMore = () => loadMore({
     skip: questions.length,
     limit: 10,
+    match: filtered,
   });
 
   return (
