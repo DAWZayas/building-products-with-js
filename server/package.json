@@ -63,6 +63,7 @@
     "passport-local": "^1.0.0",
     "rethinkdb-websocket-server": "^0.6.0",
     "thinky": "^2.3.4",
+    "uuid": "^3.0.1",
     "winston": "^2.2.0"
   }
 }

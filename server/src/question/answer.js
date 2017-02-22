@@ -1,5 +1,6 @@
 // npm packages
 import passport from 'passport';
+import uuidV1 from 'uuid/v1';
 
 // our packages
 import {Question} from '../db';
@@ -28,7 +29,7 @@ export default (app) => {
     }
 
     // append new answer
-    question.answers.push({answer, user: req.user.id});
+    question.answers.push({id: uuidV1(), answer, user: req.user.id});
 
     // try saving
     await question.save();
