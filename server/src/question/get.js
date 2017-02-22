@@ -16,8 +16,10 @@ export default (app) => {
   app.get('/api/question', passport.authenticate('jwt', {session: false}), asyncRequest(async (req, res) => {
     const skip = parseInt(req.query.skip, 10) || 0;
     const limit = parseInt(req.query.limit, 10) || 10;
+    const match = req.query.match || '';
     const questions = await r.table('Question')
                              .pluck('id', 'text', 'creationDate', 'expirationDate', 'owner')
+                             .filter(doc => doc('text').match(`(?i)${match}`))
                              .orderBy(r.desc('creationDate'))
                              .skip(skip)
                              .limit(limit);
