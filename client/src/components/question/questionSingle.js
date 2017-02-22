@@ -27,10 +27,11 @@ class QuestionSingle extends Component {
   }
 
   componentDidMount() {
-    const {questions, loadMore} = this.props;
+    const {questions, filtered, loadMore} = this.props;
     loadMore({
       skip: questions.length,
       limit: 10,
+      match: filtered,
     });
   }
 

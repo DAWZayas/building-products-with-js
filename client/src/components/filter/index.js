@@ -29,7 +29,7 @@ const Filter = ({filtered, getFilteredQuestions, resetQuestions}) => {
       <span className="input-group-addon">
         <span className="glyphicon glyphicon-search" />
       </span>
-      <input type="text" className="form-control" placeholder="Search" onChange={onFilter} value={filtered} />
+      <input type="text" className="form-control" placeholder="Search" onChange={onFilter} defaultValue={filtered} />
     </div>
   );
 };
