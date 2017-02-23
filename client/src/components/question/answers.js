@@ -8,6 +8,7 @@ import {Spinner} from '../../components/spinner';
 const mapStateToProps = (state, {question}) => ({
   answering: state.questions.answering &&
              state.questions.answering[question.id],
+  deleting: state.questions.deleting || {},
   user: state.auth.user,
 });
 
@@ -45,7 +46,7 @@ class Answers extends Component {
 
 
   render() {
-    const {question, answering, user, deleteAnswer} = this.props;
+    const {question, answering, deleting, user, deleteAnswer} = this.props;
 
     const onDeleteAnswerClick = (answerId) => {
       deleteAnswer({
@@ -65,12 +66,12 @@ class Answers extends Component {
                   {answer.answer}
                   {
                     answer.user && user.id && answer.user === user.id ?
-                      <button
+                      !deleting[answer.id] ? <button
                         className="btn btn-sm btn-danger pull-right"
                         onClick={() => onDeleteAnswerClick(answer.id)}
                       >
                         <span className="glyphicon glyphicon-trash action-icon" />
-                      </button> :
+                      </button> : <span className="pull-right"><Spinner /> </span> :
                       null
                   }
                 </li>
