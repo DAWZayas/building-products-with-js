@@ -21,6 +21,7 @@ export const questions = (state = initialState, action) => {
     }
     case ActionTypes.GET_ANSWERS_ERROR:
     case ActionTypes.ANSWER_QUESTION_ERROR:
+    case ActionTypes.DELETE_ANSWER_ERROR:
     case ActionTypes.CREATE_QUESTION_ERROR:
       return {
         ...state,
@@ -28,7 +29,8 @@ export const questions = (state = initialState, action) => {
         error: action.payload.error,
       };
     case ActionTypes.GET_ANSWERS_SUCCESS:
-    case ActionTypes.ANSWER_QUESTION_SUCCESS: {
+    case ActionTypes.ANSWER_QUESTION_SUCCESS:
+    case ActionTypes.DELETE_ANSWER_SUCCESS: {
       const newQuestions = state.questions.map(q => q.id === action.payload.id ? action.payload : q);
       return {
         ...state,

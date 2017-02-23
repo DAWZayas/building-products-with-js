@@ -4,6 +4,7 @@ import {addObservable, openConnection, closeConnection} from './realtime';
 import {helloWorld} from './helloworld';
 import {getMoreQuestions,
         answerQuestion,
+        deleteAnswer,
         createQuestion,
         getAnswers,
         doFilterQuestions,
@@ -26,6 +27,7 @@ export default [
   getMoreQuestions,
   doFilterQuestions,
   answerQuestion,
+  deleteAnswer,
   createQuestion,
   getAnswers,
   removePendingQuestionNotifications,

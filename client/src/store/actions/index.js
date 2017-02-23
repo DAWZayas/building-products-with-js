@@ -89,6 +89,11 @@ export const answerQuestion = payload => ({
   payload,
 });
 
+export const deleteAnswer = payload => ({
+  type: ActionTypes.DELETE_ANSWER,
+  payload,
+});
+
 export const createQuestion = payload => ({
   type: ActionTypes.CREATE_QUESTION,
   payload,

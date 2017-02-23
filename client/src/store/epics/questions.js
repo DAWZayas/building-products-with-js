@@ -81,6 +81,33 @@ export const answerQuestion = action$ => action$
     )),
   );
 
+export const deleteAnswer = action$ => action$
+  .ofType(ActionTypes.DELETE_ANSWER)
+  .map(signRequest)
+  .mergeMap(({headers, payload}) => Observable
+    .ajax.delete(`http://${host}:${port}/api/question/${payload.questionId}/answer/${payload.answerId}`, headers)
+    .delayInDebug(2000)
+    .map(res => res.response)
+    .mergeMap(question => Observable.of(
+      {
+        type: ActionTypes.DELETE_ANSWER_SUCCESS,
+        payload: question,
+      },
+      Actions.addNotificationAction(
+        {text: `Answer: "${payload.answerId}" deleted from question: "${payload.questionId}"`, alertType: 'info'},
+      ),
+    ))
+    .catch(error => Observable.of(
+      {
+        type: ActionTypes.DELETE_ANSWER_ERROR,
+        payload: {error},
+      },
+      Actions.addNotificationAction(
+        {text: `[answer delete] Error: ${ajaxErrorToMessage(error)}`, alertType: 'danger'},
+      ),
+    )),
+  );
+
 export const createQuestion = action$ => action$
   .ofType(ActionTypes.CREATE_QUESTION)
   .map(signRequest)
