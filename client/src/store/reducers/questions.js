@@ -31,21 +31,29 @@ export const questions = (state = initialState, action) => {
     case ActionTypes.GET_ANSWERS_SUCCESS:
     case ActionTypes.ANSWER_QUESTION_SUCCESS:
     case ActionTypes.DELETE_ANSWER_SUCCESS: {
-      const newQuestions = state.questions.map(q => q.id === action.payload.id ? action.payload : q);
+      const newQuestions = state.questions.map(q => q.id === action.payload.question.id ? action.payload.question : q);
       return {
         ...state,
         questions: newQuestions,
         status: 'done',
-        answering: action.type === ActionTypes.GET_ANSWERS_SUCCESS ? state.answering : {
+        answering: action.type === ActionTypes.ANSWER_QUESTION_SUCCESS ? {
           ...state.answering,
-          [action.payload.id]: false,
-        },
+          [action.payload.question.id]: false,
+        } : state.answering,
+        deleting: action.type === ActionTypes.DELETE_ANSWER_SUCCESS ? {
+          ...state.deleting,
+          [action.payload.answerId]: false,
+        } : state.deleting,
         hasMore: state.hasMore,
       };
     }
     case ActionTypes.ANSWER_QUESTION: {
       const answering = {...state.answering, [action.payload.question.id]: true};
       return {...state, answering};
+    }
+    case ActionTypes.DELETE_ANSWER: {
+      const deleting = {...state.deleting, [action.payload.answerId]: true};
+      return {...state, deleting};
     }
     case ActionTypes.CREATE_QUESTION_SUCCESS: {
       const newQuestions = [action.payload, ...state.questions];

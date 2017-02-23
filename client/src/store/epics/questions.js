@@ -40,7 +40,7 @@ export const getAnswers = action$ => action$
     .map(res => res.response)
     .map(question => ({
       type: ActionTypes.GET_ANSWERS_SUCCESS,
-      payload: question,
+      payload: {question},
     }))
     .catch(error => Observable.of(
       {
@@ -63,10 +63,10 @@ export const answerQuestion = action$ => action$
     .mergeMap(question => Observable.of(
       {
         type: ActionTypes.ANSWER_QUESTION_SUCCESS,
-        payload: question,
+        payload: {question},
       },
       Actions.addNotificationAction(
-        {text: `Answer: "${payload.answer}" added to question: "${question.text}"`, alertType: 'info'},
+        {text: `Answer "${payload.answer}" added to question: "${question.text}"`, alertType: 'info'},
       ),
       Actions.removeNotificationByRefAction(question.id),
     ))
@@ -91,7 +91,7 @@ export const deleteAnswer = action$ => action$
     .mergeMap(question => Observable.of(
       {
         type: ActionTypes.DELETE_ANSWER_SUCCESS,
-        payload: question,
+        payload: {question, answerId: payload.answerId},
       },
       Actions.addNotificationAction(
         {text: `Answer: "${payload.answerId}" deleted from question: "${payload.questionId}"`, alertType: 'info'},
