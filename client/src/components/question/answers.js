@@ -1,22 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {getAnswers, deleteAnswer, addObservable, removeObservable} from '../../store/actions';
+import {getAnswers, addObservable, removeObservable} from '../../store/actions';
 import {registerQuestionObservable} from '../../store/realtime';
 import {Spinner} from '../../components/spinner';
+import Answer from './answer';
 
 const mapStateToProps = (state, {question}) => ({
   answering: state.questions.answering &&
              state.questions.answering[question.id],
-  deleting: state.questions.deleting || {},
-  user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   getAnswers: questionId => dispatch(getAnswers(questionId)),
   addObservable: observable => dispatch(addObservable(observable)),
   removeObservable: (observable, question) => dispatch(removeObservable({observable, question})),
-  deleteAnswer: payload => dispatch(deleteAnswer(payload)),
 });
 
 class Answers extends Component {
@@ -46,14 +44,7 @@ class Answers extends Component {
 
 
   render() {
-    const {question, answering, deleting, user, deleteAnswer} = this.props;
-
-    const onDeleteAnswerClick = (answerId) => {
-      deleteAnswer({
-        questionId: question.id,
-        answerId,
-      });
-    };
+    const {question, answering} = this.props;
 
     const {loading} = this.state;
     return (
@@ -61,20 +52,8 @@ class Answers extends Component {
         {loading ? <Spinner /> : (
           <div>
             <ul className="list-group">
-              {question.answers.map((answer, i) => (
-                <li className="list-group-item" key={i} style={{paddingBottom: '20px'}}>
-                  {answer.answer}
-                  {
-                    answer.user && user.id && answer.user === user.id ?
-                      !deleting[answer.id] ? <button
-                        className="btn btn-sm btn-danger pull-right"
-                        onClick={() => onDeleteAnswerClick(answer.id)}
-                      >
-                        <span className="glyphicon glyphicon-trash action-icon" />
-                      </button> : <span className="pull-right"><Spinner /> </span> :
-                      null
-                  }
-                </li>
+              {question.answers.map(answer => (
+                <Answer key={answer.id} answer={answer} questionId={question.id} />
               ))}
               {answering ? <li className="list-group-item" key={question.answers.length}><Spinner /></li> : null}
             </ul>
