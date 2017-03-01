@@ -76,4 +76,44 @@ export default (app) => {
     // send created question back
     res.send(question);
   }));
+
+  app.put('/api/question/:questionId/answer/:answerId', passport.authenticate('jwt', {session: false}),
+  asyncRequest(async (req, res) => {
+    const {questionId, answerId} = req.params;
+    const {answer} = req.body;
+    const user = req.user.id;
+
+    // get the question
+    const question = await Question.get(questionId);
+
+    // double-check check if question exists
+    if (!question) {
+      res.status(400).send({error: 'Question not found!'});
+      return;
+    }
+
+    // get the answer
+    const answerDB = question.answers.filter(a => a.id === answerId)[0];
+
+    // double-check check if question exists
+    if (!answerDB) {
+      res.status(400).send({error: 'Answer not found!'});
+      return;
+    }
+
+    // double-check check if answer belongs to user
+    if (answerDB.user !== user) {
+      res.status(400).send({error: 'Permission denied!'});
+      return;
+    }
+
+    // modify the answer
+    answerDB.answer = answer;
+
+    // try saving
+    await question.save();
+
+    // send created question back
+    res.send(question);
+  }));
 };
