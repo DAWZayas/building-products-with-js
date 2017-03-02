@@ -21,6 +21,7 @@ export const questions = (state = initialState, action) => {
     }
     case ActionTypes.GET_ANSWERS_ERROR:
     case ActionTypes.ANSWER_QUESTION_ERROR:
+    case ActionTypes.EDIT_ANSWER_ERROR:
     case ActionTypes.DELETE_ANSWER_ERROR:
     case ActionTypes.CREATE_QUESTION_ERROR:
       return {
@@ -30,6 +31,7 @@ export const questions = (state = initialState, action) => {
       };
     case ActionTypes.GET_ANSWERS_SUCCESS:
     case ActionTypes.ANSWER_QUESTION_SUCCESS:
+    case ActionTypes.EDIT_ANSWER_SUCCESS:
     case ActionTypes.DELETE_ANSWER_SUCCESS: {
       const newQuestions = state.questions.map(q => q.id === action.payload.question.id ? action.payload.question : q);
       return {
@@ -44,6 +46,10 @@ export const questions = (state = initialState, action) => {
           ...state.deleting,
           [action.payload.answerId]: false,
         } : state.deleting,
+        updating: action.type === ActionTypes.EDIT_ANSWER_SUCCESS ? {
+          ...state.updating,
+          [action.payload.answer.id]: false,
+        } : state.updating,
         hasMore: state.hasMore,
       };
     }
@@ -54,6 +60,10 @@ export const questions = (state = initialState, action) => {
     case ActionTypes.DELETE_ANSWER: {
       const deleting = {...state.deleting, [action.payload.answerId]: true};
       return {...state, deleting};
+    }
+    case ActionTypes.EDIT_ANSWER: {
+      const updating = {...state.updating, [action.payload.answer.id]: true};
+      return {...state, updating};
     }
     case ActionTypes.CREATE_QUESTION_SUCCESS: {
       const newQuestions = [action.payload, ...state.questions];
