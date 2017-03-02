@@ -108,6 +108,33 @@ export const deleteAnswer = action$ => action$
     )),
   );
 
+export const editAnswer = action$ => action$
+  .ofType(ActionTypes.EDIT_ANSWER)
+  .map(signRequest)
+  .mergeMap(({headers, payload}) => Observable
+    .ajax.put(`http://${host}:${port}/api/question/${payload.questionId}/answer/${payload.answer.id}`, {answer: payload.answer.answer}, headers)
+    .delayInDebug(2000)
+    .map(res => res.response)
+    .mergeMap(question => Observable.of(
+      {
+        type: ActionTypes.EDIT_ANSWER_SUCCESS,
+        payload: {question, answer: payload.answer},
+      },
+      Actions.addNotificationAction(
+        {text: `Answer: "${payload.answer.id}" modified from text: "${payload.answer.answer}" to text "${payload.oldAnswer}"`, alertType: 'info'},
+      ),
+    ))
+    .catch(error => Observable.of(
+      {
+        type: ActionTypes.EDIT_ANSWER_ERROR,
+        payload: {error},
+      },
+      Actions.addNotificationAction(
+        {text: `[answer edit] Error: ${ajaxErrorToMessage(error)}`, alertType: 'danger'},
+      ),
+    )),
+  );
+
 export const createQuestion = action$ => action$
   .ofType(ActionTypes.CREATE_QUESTION)
   .map(signRequest)
