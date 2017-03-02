@@ -13,7 +13,7 @@ import {initAuthAction} from './actions'
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
 // pick debug or dummy enhancer
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = process.env && process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
 const preparedRouterMiddleware = routerMiddleware(browserHistory);
 const middlewares = composeEnhancers(
   applyMiddleware(epicMiddleware),
