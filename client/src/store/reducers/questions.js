@@ -53,6 +53,8 @@ export const questions = (state = initialState, action) => {
         hasMore: state.hasMore,
       };
     }
+    case ActionTypes.START_EDIT_ANSWER: return {...state, editing: action.payload.answerId};
+    case ActionTypes.END_EDIT_ANSWER: return {...state, editing: false};
     case ActionTypes.ANSWER_QUESTION: {
       const answering = {...state.answering, [action.payload.question.id]: true};
       return {...state, answering};

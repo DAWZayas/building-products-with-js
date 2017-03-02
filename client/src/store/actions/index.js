@@ -94,10 +94,21 @@ export const deleteAnswer = payload => ({
   payload,
 });
 
+export const startEditAnswer = payload => ({
+  type: ActionTypes.START_EDIT_ANSWER,
+  payload,
+});
+
+export const endEditAnswer = payload => ({
+  type: ActionTypes.END_EDIT_ANSWER,
+  payload,
+});
+
 export const editAnswer = payload => ({
   type: ActionTypes.EDIT_ANSWER,
   payload,
 });
+
 
 export const createQuestion = payload => ({
   type: ActionTypes.CREATE_QUESTION,
