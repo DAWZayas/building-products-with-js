@@ -57,21 +57,26 @@ export const questions = (state = initialState, action) => {
     case ActionTypes.END_EDIT_ANSWER: return {...state, editing: false};
     case ActionTypes.ANSWER_QUESTION: {
       const answering = {...state.answering, [action.payload.question.id]: true};
-      return {...state, answering};
+      return {...state, answering, editing: false};
     }
     case ActionTypes.DELETE_ANSWER: {
       const deleting = {...state.deleting, [action.payload.answerId]: true};
-      return {...state, deleting};
+      return {...state, deleting, editing: false};
     }
     case ActionTypes.EDIT_ANSWER: {
       const updating = {...state.updating, [action.payload.answer.id]: true};
-      return {...state, updating};
+      return {...state, updating, editing: false};
     }
     case ActionTypes.CREATE_QUESTION_SUCCESS: {
       const newQuestions = [action.payload, ...state.questions];
       return {...state, questions: newQuestions, status: 'done', hasMore: state.hasMore};
     }
-    default:
+    case ActionTypes.ADD_NOTIFICATION:
+    case ActionTypes.REMOVE_NOTIFICATION:
+    case ActionTypes.REMOVE_NOTIFICATION_BY_REF: {
       return state;
+    }
+    default:
+      return {...state, editing: false};
   }
 };
