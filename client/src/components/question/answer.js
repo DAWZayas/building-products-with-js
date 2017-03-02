@@ -21,6 +21,7 @@ class Answer extends Component {
     super(props);
     this.state = {
       editing: false,
+      okButtonDisabled: true,
     };
   }
 
@@ -46,6 +47,7 @@ class Answer extends Component {
       e.preventDefault();
       this.setState({
         editing: false,
+        okButtonDisabled: true,
       });
       onEditAnswer({
         questionId,
@@ -57,7 +59,15 @@ class Answer extends Component {
     const onCancelAnswerClick = (e) => {
       e.preventDefault();
       this.setState({
-        editing: false
+        editing: false,
+        okButtonDisabled: true,
+      });
+    };
+
+    const checkOkButtonState = (e) => {
+      e.preventDefault();
+      this.setState({
+        okButtonDisabled: answerText.value === '' || answerText.value === answer.answer,
       });
     };
 
@@ -89,10 +99,12 @@ class Answer extends Component {
           {!updating[answer.id] ? printButtons() : null}
         </div>
         <div className={`input-group ${this.state.editing ? '' : 'hidden'}`}>
-          <input className="form-control" ref={(t) => { answerText = t; }}/>
+          <input className="form-control" ref={(t) => { answerText = t; }} onChange={e => checkOkButtonState(e)} />
           <span className="input-group-btn">
             <button className="btn btn-danger" type="button" onClick={e => onCancelAnswerClick(e)}><span className="glyphicon glyphicon-remove" /></button>
-            <button className="btn btn-success" type="button" onClick={e => onOkAnswerClick(e)}><span className="glyphicon glyphicon-ok" /></button>
+            <button className="btn btn-success" type="button" onClick={e => onOkAnswerClick(e)} disabled={this.state.okButtonDisabled}>
+              <span className="glyphicon glyphicon-ok" />
+            </button>
           </span>
         </div>
       </li>
