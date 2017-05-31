@@ -27,7 +27,7 @@ class QuestionSingle extends Component {
   }
 
   componentDidMount() {
-    const {questions, filtered, loadMore} = this.props;
+    const {questions, loadMore, filtered} = this.props;
     loadMore({
       skip: questions.length,
       limit: 10,
@@ -36,7 +36,7 @@ class QuestionSingle extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.questions !== nextProps.questions) {
+    if (this.props.filtered !== nextProps.filtered) {
       this.setState({
         questionIndex: 0,
       });
@@ -54,6 +54,7 @@ class QuestionSingle extends Component {
         loadMore({
           skip: questions.length,
           limit: 10,
+          match: filtered,
         });
       }
       this.setState({
